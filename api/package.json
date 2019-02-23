@@ -1,0 +1,27 @@
+{
+  "name": "parrot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaronrambhajan/parrot.git"
+  },
+  "author": "Aaron Rambhajan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aaronrambhajan/parrot/issues"
+  },
+  "homepage": "https://github.com/aaronrambhajan/parrot#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7",
+    "query-string": "^6.2.0",
+    "request": "^2.88.0"
+  }
+}

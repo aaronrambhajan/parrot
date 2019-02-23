@@ -1,0 +1,23 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "javascript.validate.enable": false,
+  "flow.useNPMPackagedFlow": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/bundle.js": true,
+    "**/bundle.js.map": true,
+    "**/local_modules/**": true,
+    "**/node_modules/**": true,
+    "**/ios/build/**": true,
+    "**/android/app/build/**": true
+  },
+  "workbench.editor.enablePreview": false,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.formatOnSave": true,
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true
+}
