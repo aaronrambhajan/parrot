@@ -3,6 +3,7 @@ html {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  font-size: calc(1em + 1vw);
 }
 
 *,
@@ -33,11 +34,4 @@ a:hover {
 
 svg {
   display: block;
-}
-
-h1,
-h2,
-button,
-p {
-  /* font-family: 'Karla'; */
 }

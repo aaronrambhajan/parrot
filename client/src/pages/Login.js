@@ -2,19 +2,18 @@
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Container, Row, Col } from 'reactstrap';
-import logo from '../images/logo.svg';
 import colors from '../colors';
 import sizes from '../sizes';
+import logo from '../images/logo.svg';
 
 const LoginContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
   background-color: ${colors.BLUE_PRIMARY};
   font-family: 'Karla';
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const LoginPage = styled.div`
@@ -22,15 +21,14 @@ const LoginPage = styled.div`
   margin: auto;
   width: 100vw;
   height: 90vh;
+  padding: 2em;
+  margin: 0 auto;
+`;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  padding: 50px;
+const PageSpacer = styled.div`
+  height: 3rem;
   @media screen and (max-width: 400px) {
-    padding: 20px;
-    width: 90vw;
-    border-radius: 20px;
+    height: 4rem;
   }
 `;
 
@@ -38,7 +36,6 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 333px;
-
   @media screen and (max-width: 400px) {
     max-width: 187px;
   }
@@ -53,22 +50,27 @@ const ConnectButton = styled.button`
   padding-left: 40px;
   padding-top: 10px;
   padding-bottom: 10px;
+  font-size: 0.75em;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const ButtonCaption = styled.p`
   margin: 4px;
   margin-top: 1em;
-  font-size: ${sizes.FONTS.CAPTION};
+  font-size: 0.5em;
   color: ${colors.SECONDARY};
 `;
 
 const Title = styled.h1`
-  font-size: ${sizes.FONTS.H1};
+  font-size: 2.5em;
 `;
 
 const Image = styled.img`
-  height: 100px;
-  width: 100px;
+  height: 5em;
+  width: auto;
 `;
 
 export default class Login extends Component {
@@ -77,6 +79,9 @@ export default class Login extends Component {
       <LoginContainer>
         <LoginPage>
           <Image src={logo} />
+
+          <PageSpacer />
+
           <Title
             style={{
               background: 'linear-gradient(to bottom right, #ed4545, #88e3ff)',
@@ -86,6 +91,8 @@ export default class Login extends Component {
           >
             What's everyone listening to?
           </Title>
+
+          <PageSpacer />
 
           <ButtonContainer>
             <ConnectButton
