@@ -1,19 +1,17 @@
 // @flow
 
 import React from 'react';
+import styled from 'styled-components';
 import firebase from '../firebase';
 import { getCurrentSong } from '../api';
 import colors from '../colors';
-import Gabriella from '../images/person.png';
 import sizes from '../sizes';
-
-import plus from '../images/plus.svg';
-import spotify from '../images/spotify.svg';
+import images from '../images/images';
 
 const FAKE_DATA = [
   {
     user: 'Ally Scandolo',
-    pic: 'something.png',
+    pic: images.person,
     song: {
       artist: 'Beyoncé',
       song: 'Mine',
@@ -21,7 +19,7 @@ const FAKE_DATA = [
   },
   {
     user: 'Charlène Hn',
-    pic: 'something.png',
+    pic: images.person,
     song: {
       artist: 'Kid Francesoli',
       song: 'Moon',
@@ -29,7 +27,7 @@ const FAKE_DATA = [
   },
   {
     user: 'Sidney Blais',
-    pic: 'something.png',
+    pic: images.person,
     song: {
       artist: 'Empress Of',
       song: "I Don't Even Smoke",
@@ -37,13 +35,27 @@ const FAKE_DATA = [
   },
   {
     user: 'Irwan Poerba',
-    pic: 'something.png',
+    pic: images.person,
     song: {
       artist: 'Frank Ocean',
       song: 'White Ferrari',
     },
   },
 ];
+
+const Container = styled.div`
+  background-color: ${colors.BLUE_PRIMARY};
+`;
+
+const Card = styled.div`
+  border-radius: 20px;
+  padding: 1em;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: ${colors.YELLOW_PRIMARY};
+  max-width: 50%;
+  font-size: 0.5em;
+`;
 
 export default class Social extends React.Component {
   props: {
@@ -88,10 +100,6 @@ export default class Social extends React.Component {
           user: items[item].currentSong.artist,
         });
       }
-
-      // this.setState({
-      //   items: newState,
-      // });
     });
   };
 
@@ -117,91 +125,23 @@ export default class Social extends React.Component {
 
   render = () => {
     return (
-      <div>
-        <button onClick={this.update}>ok</button>
-
-        <div
-          style={{
-            backgroundColor: colors.YELLOW_PRIMARY,
-            width: '100%',
-            height: 102,
-            borderRadius: 20,
-            padding: 20,
-          }}
-        >
-          <div
-            style={{
-              fontSize: sizes.CAPTION,
-              letterSpacing: '2px',
-              color: 'black',
-              opacity: 0.6,
-            }}
-          >
-            AREND PELLEWEVER
-          </div>
-
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'space-between',
-            }}
-          >
-            <div>
-              <img src={Gabriella} style={{ width: 41, height: 41 }} />
-            </div>
-
-            <div>
-              <h2 style={{ letterSpacing: '0.25px', fontSize: sizes.FONTS.H2 }}>
-                Whiter Shade of Pale
-              </h2>
-              <p
-                style={{
-                  letterSpacing: '0.4px',
-                  fontSize: sizes.FONTS.CAPTION,
-                }}
-              >
-                Procol Harem
-              </p>
-            </div>
-
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-evenly',
-                alignItems: 'space-between',
-              }}
-            >
-              <img src={plus} style={{ height: 21, width: 21 }} />
-
-              <img src={spotify} style={{ height: 21, width: 21 }} />
-            </div>
-          </div>
-        </div>
-
-        {/* {this.state.artist && (
-          <p>
-            {this.state.artist} - {this.state.song}
-          </p>
-        )} */}
-
-        <ol>
-          {
-            <ul>
-              {this.state.items.map((item) => {
-                return (
-                  <li key={item.id}>
-                    <h3>{item.title}</h3>
-                    <p>brought by: {item.user}</p>
-                  </li>
-                );
-              })}
-            </ul>
-          }
-        </ol>
-      </div>
+      <Container>
+        {FAKE_DATA.map((data) => {
+          return <UserCard data={data} />;
+        })}
+      </Container>
     );
   };
 }
+
+const UserCard = ({ data }) => {
+  return (
+    <Card>
+      <p>{data.user}</p>
+      <img src={data.pic} />
+      <p>
+        {data.song.artist}: {data.song.song}
+      </p>
+    </Card>
+  );
+};

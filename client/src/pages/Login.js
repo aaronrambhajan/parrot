@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import colors from '../colors';
 import sizes from '../sizes';
-import logo from '../images/logo.svg';
+import images from '../images/images';
 
 const LoginContainer = styled.div`
   background-color: ${colors.BLUE_PRIMARY};
@@ -78,7 +78,7 @@ export default class Login extends Component {
     return (
       <LoginContainer>
         <LoginPage>
-          <Image src={logo} />
+          <Image src={images.parrot_logo} />
 
           <PageSpacer />
 
