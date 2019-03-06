@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import colors from '../colors';
 import sizes from '../sizes';
-import images from '../images/images';
+import images from '../images';
 
 const LoginContainer = styled.div`
   background-color: ${colors.BLUE_PRIMARY};
