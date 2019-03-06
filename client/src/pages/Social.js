@@ -3,7 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import firebase from '../firebase';
-import { getCurrentSong } from '../api';
+import { getCurrentSong, addUser } from '../api';
 import colors from '../colors';
 import sizes from '../sizes';
 import images from '../images';
@@ -85,37 +85,13 @@ export default class Social extends React.Component {
 
   componentDidMount = async () => {
     // Add the user to the database
-    this.addUser(this.props.user);
+    await addUser(this.props.user);
 
     // Spotify API request to figure out current song
     const { artist, song, timestamp } = await getCurrentSong(this.props.token);
 
     // Update the component
     this.setState({ artist, song });
-  };
-
-  addUser = (user) => {
-    const usersRef = firebase.database().ref('users');
-    usersRef.push({ user });
-  };
-
-  update = () => {
-    // Instigates a listener that updates data whenever something has changed
-    const usersRef = firebase.database().ref('users');
-
-    usersRef.on('value', (snapshot) => {
-      const items = snapshot.val();
-
-      const newState = [];
-
-      for (var item in items) {
-        newState.push({
-          id: item,
-          title: items[item].username,
-          user: items[item].currentSong.artist,
-        });
-      }
-    });
   };
 
   handleSubmit = (e) => {
