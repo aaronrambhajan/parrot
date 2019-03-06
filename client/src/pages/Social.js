@@ -6,7 +6,19 @@ import firebase from '../firebase';
 import { getCurrentSong } from '../api';
 import colors from '../colors';
 import sizes from '../sizes';
-import images from '../images/images';
+import images from '../images';
+
+/**
+ * Database Processing
+ *
+ * (1) When the user has initially logged-in, *add user to DB*.
+ *      We want to check first if the user has been added to the database, and
+ *      if they have, we don't add anything.
+ * (2) We query the database for all users (eventually, with permissions)
+ *      and return the most recent song listened to by each user.
+ * (3) Every time a song updates, we add that to the user's entry in the DB.
+ *
+ */
 
 const FAKE_DATA = [
   {
@@ -72,10 +84,13 @@ export default class Social extends React.Component {
   };
 
   componentDidMount = async () => {
-    // Add this user to the database
+    // Add the user to the database
     this.addUser(this.props.user);
 
+    // Spotify API request to figure out current song
     const { artist, song, timestamp } = await getCurrentSong(this.props.token);
+
+    // Update the component
     this.setState({ artist, song });
   };
 
@@ -85,12 +100,12 @@ export default class Social extends React.Component {
   };
 
   update = () => {
+    // Instigates a listener that updates data whenever something has changed
     const usersRef = firebase.database().ref('users');
 
     usersRef.on('value', (snapshot) => {
       const items = snapshot.val();
 
-      console.log(items);
       const newState = [];
 
       for (var item in items) {
