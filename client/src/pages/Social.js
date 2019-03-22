@@ -20,6 +20,9 @@ import images from '../images';
  *
  */
 
+// @todo Add button that takes users to the Spotify app (since they can't play)
+//   from our app...
+
 const FAKE_DATA = [
   {
     user: 'Ally Scandolo',

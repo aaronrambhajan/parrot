@@ -37,7 +37,7 @@ import firebase from './firebase';
           name: 'alexandrascandolo'
         }
       },
-      user_songs: {
+      songs: {
         1: {
           timestamp: 1551992173816,
           user: alexandrascandolo
@@ -47,6 +47,9 @@ import firebase from './firebase';
     ```
   */
 
+
+// @todo: Implement functionality for 'heating' tracks up if they are played
+//  by > 1 of your friends
 const getUser = async (accessToken) => {
   return await fetch('https://api.spotify.com/v1/me', {
     headers: { Authorization: 'Bearer ' + accessToken },
@@ -75,6 +78,9 @@ const getCurrentSong = async (accessToken) => {
   // This endpoint returns all the song data, too
   // @todo Retrieve position in track to fill out progress button
   // @todo https://api.spotify.com/v1/me/player/recently-played [last 50 track]
+
+
+  // We should probably start by getting their last 50 songs.
 
   return await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
     headers: { Authorization: 'Bearer ' + accessToken },
