@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
 
-import { getUser } from './api';
+import { validateUser } from './api';
 import firebase from './firebase';
 
 import Social from './pages/Social';
@@ -32,7 +32,7 @@ export default class App extends Component {
     const accessToken = parsed.access_token;
     if (!accessToken) return;
 
-    const { name, image, email } = await getUser(accessToken);
+    const { name, image, email } = await validateUser(accessToken);
 
     this.setState({
       accessToken,

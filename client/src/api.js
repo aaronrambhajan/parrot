@@ -29,28 +29,55 @@ import firebase from './firebase';
         arambhajan: {
           email: 'aaronrambhajan@gmail.com',
           image: 'https://profile-images.scdn.co/images/userprofile/default/a6cea6d3655f35c0e0266b4a2ebf6e76dda7288a',
-          name: 'arambhajan'
+          name: 'arambhajan',
+          following: ['alexandrascandolo', 'irwanpoerba'],
         },
         alexandrascandolo: {
           email: 'alexandrascandolo@gmail.com',
           image: 'https://profile-images.scdn.co/images/userprofile/default/a6cea6d3655f35c0e0266b4a2ebf6e76dda7288a',
-          name: 'alexandrascandolo'
+          name: 'alexandrascandolo',
+          following: ['aaronrambhajan', 'irwanpoerba']
         }
       },
-      songs: {
-        1: {
+      songs: [ // most recent first
+        {
           timestamp: 1551992173816,
-          user: alexandrascandolo
-          song: 1 <uuid>
+          user: alexandrascandolo,
+          song: 23491023
         }
-      }
+      ]
     ```
   */
 
 
-// @todo: Implement functionality for 'heating' tracks up if they are played
-//  by > 1 of your friends
-const getUser = async (accessToken) => {
+const sortSongs = (songData, method) => {
+  // method === 'user' --> arambhajan: [{timestamp, song}] // user history
+  // method === 'song' --> 120538192: [{user, timestamp}] // song heatmap
+
+  const bySongs = {};
+  const now = Date.now();
+
+  songData.map((songPlayed) => {
+    const specifier = method === 'user' ? 'song' : 'user';
+    const data = {timeSince: now - songPlayed.timestamp};
+    data[specifier] = songPlayed[specifier];
+    const key = songPlayed[method];
+    bySongs[key] = !!bySongs[key] ? [data] : bySongs[key].push(data);
+  })
+  return bySongs;
+}
+
+const getUserHistory = (user) => {
+  // query native DB for our history of it
+  return;
+}
+
+
+/**
+ * Validate a user with an access token.
+ * This has to be done first, before any other actions can happen.
+ */
+const validateUser = async (accessToken) => {
   return await fetch('https://api.spotify.com/v1/me', {
     headers: { Authorization: 'Bearer ' + accessToken },
   })
@@ -68,19 +95,31 @@ const getUser = async (accessToken) => {
     });
 };
 
+/**
+ * After validation, add a user to our database.
+ */
 const addUser = async (spotifyUserObject) => {
   const usersRef = firebase.database().ref('users');
   // Doesn't add user if they're already there!
   await usersRef.child(spotifyUserObject.name).set(spotifyUserObject);
+
+  // return {
+  //   type: 'success',
+  // }
 };
+
+// @todo
+const preloadUserHistory = async (accessToken) => {
+  // When a user logs in and we don't have any data, we take their
+  // last 50 tracks
+  // https://api.spotify.com/v1/me/player/recently-played [last 50 track]
+
+  return;
+}
 
 const getCurrentSong = async (accessToken) => {
   // This endpoint returns all the song data, too
   // @todo Retrieve position in track to fill out progress button
-  // @todo https://api.spotify.com/v1/me/player/recently-played [last 50 track]
-
-
-  // We should probably start by getting their last 50 songs.
 
   return await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
     headers: { Authorization: 'Bearer ' + accessToken },
@@ -103,7 +142,7 @@ const getCurrentSong = async (accessToken) => {
       const storedData = {
         songId: item.id,
         timestamp: data.timestamp,
-        user: // user data
+        user:
       };
 
 
@@ -119,10 +158,13 @@ const getCurrentSong = async (accessToken) => {
 };
 
 const updateUser = async () => {
-  // Instigates a listener that updates data whenever
-  //  something has changed
-  const usersRef = firebase.database().ref('users');
+  // Retrieve from Spotify API if a user has listened to a new song, then
+  // add it to our database, then send the data from our databas
+  // Parrot -> requests -> Spotify
+  // Parrot -> updates -> Firebase
+  // Parrot -> queries -> Firebase
 
+  const usersRef = firebase.database().ref('users'); // Listener that updates data
   const newState = [];
 
   usersRef.on('value', (snapshot) => {
