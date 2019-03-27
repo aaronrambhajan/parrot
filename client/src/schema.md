@@ -18,9 +18,8 @@
 # Firebase Schema
 
 - We're not storing the songs, just the id's to songs for now because we
-  can just get that info through Spotify. It is TBD whether or not this is
-  a good strategy, but we;ll try it out for now. Might be too many API req-
-  uests to be useful, lol.
+  can just get that info through Spotify.
+- When a user is
 
 ```json
   "users": {

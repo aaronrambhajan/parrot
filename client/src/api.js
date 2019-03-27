@@ -7,6 +7,7 @@
  * @todo create a return type default for better error-handling.
  * @todo add functionality for messaging so if we see a friend listening to
  *  a song we can interact with it in some way
+ * @todo add a Spotify button so people can go to the app/songs
  */
 
 import firebase from './firebase';
@@ -137,6 +138,28 @@ export const updateUser = async () => {
   return newState;
 };
 
+/**
+ * Query `Firebase` for all users.
+ *
+ * @todo implement
+ *
+ * @param {Array} userList
+ *    List of users that the current user is following whose history we are
+ *    retrieving. If `userList.length === 0`, it will return all users in
+ *    `Firebase`.
+ */
+export const updateSongsForDisplay = async (userList) => {
+  return;
+}
+
+/**
+ * Query `Spotify` to get song data.
+ *
+ * @param {*} songId
+ */
+export const getSong = async (songId) => {
+  return;
+}
 
 /**
  * Query `Firebase` for a user's listening history.
