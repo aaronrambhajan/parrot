@@ -2,19 +2,15 @@
 
 import React, { Component } from 'react';
 import queryString from 'query-string';
-
-import { validateUser } from './api';
-import firebase from './firebase';
-
+import { validateUser, addUser } from './api';
 import Social from './pages/Social';
 import Login from './pages/Login';
 
 export default class App extends Component {
   state: {
-    user: {
-      name: string,
-    },
-    items: Array,
+    accessToken: string,
+    user: SpotifyUserObject,
+    isLoggedIn: boolean,
   };
 
   state = {
@@ -31,17 +27,16 @@ export default class App extends Component {
     const parsed = queryString.parse(window.location.search);
     const accessToken = parsed.access_token;
     if (!accessToken) return;
+    // @todo develop better way of passing accessToken around
 
-    const { name, image, email } = await validateUser(accessToken);
+    const user: SpotifyUserObject = await validateUser(accessToken);
+    const isLoggedIn: boolean = await addUser(user);
+    // @todo validate success
 
     this.setState({
       accessToken,
-      isLoggedIn: true,
-      user: {
-        name,
-        image,
-        email,
-      },
+      user,
+      isLoggedIn,
     });
   };
 
@@ -49,7 +44,6 @@ export default class App extends Component {
     if (this.state.isLoggedIn) {
       return <Social token={this.state.accessToken} user={this.state.user} />;
     }
-
     return <Login />;
   };
 }
