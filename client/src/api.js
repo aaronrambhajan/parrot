@@ -8,6 +8,7 @@
  * @todo add functionality for messaging so if we see a friend listening to
  *  a song we can interact with it in some way
  * @todo add a Spotify button so people can go to the app/songs
+ * @todo split this into a FIREBASE API and a SPOTIFY API
  */
 
 import firebase from './firebase';
@@ -29,6 +30,7 @@ export const validateUser = async (accessToken) => {
       };
     })
     .catch((error) => {
+      // @todo do something
       return '';
     });
 
@@ -56,57 +58,49 @@ export const addUser = async (spotifyUserObject) => {
  * @todo implement
  */
 export const preloadUserHistory = async (accessToken) => {
-  const userSongHistory =
-   await fetch('https://api.spotify.com/v1/me/player/recently-played', {
-    headers: { Authorization: 'Bearer ' + accessToken },
-  }).then((response) => response.json())
-  .then((data) => {
-    return false;
-  }).catch((error) => {
-    return false;
-  })
+  const userSongHistory = await fetch(
+    'https://api.spotify.com/v1/me/player/recently-played',
+    {
+      headers: { Authorization: 'Bearer ' + accessToken },
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      return false;
+    })
+    .catch((error) => {
+      return false;
+    });
 
   return userSongHistory;
-}
+};
 
 /**
- * Returns the track from `Spotify` for what a user is listening to. Then
- * adds it to `Firebase`. Returns this data and displays.
+ * Returns the track from Spotify for what a user is listening to. Then
+ * adds it to Firebase. Returns this data and displays.
  *
  * @todo schedule this to pull every 5 minutes or something
  * @todo retrieve position in track to fill out progress button
  */
 export const getCurrentSong = async (accessToken) => {
-
   return await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
     headers: { Authorization: 'Bearer ' + accessToken },
   })
     .then((response) => response.json())
     .then((data) => {
-      const { item } = data;
-
-      const displayData = {
-        songUrl: item.external_urls.spotify,
-        songName: item.name,
-        artistList: item.artists.map((artist) => {
-          return artist.name; // artist *names* only
-        }),
-        imageLink: item.album.images[0], // largest image only
-      };
-
-      // We're not going to store entire song data, just the `id` such that
-      //  when we want a song, we just query Spotify (for now)
-      const storedData = {
-        songId: item.id,
-        timestamp: data.timestamp,
-        user:
-      };
-
+      const { timestamp, progress_ms, is_playing, item } = data;
+      const { height, url, width } = item.album.images[0]; // highest resolution by default
+      const artists = item.artists.map((artist) => artist.name); // for multiple artists
 
       return {
-        artist: data.item.artists[0].name,
-        song: data.item.name,
-        timestamp: data.timestamp,
+        timestamp,
+        progress_ms,
+        is_playing,
+        artists,
+        song_duration: item.duration_ms,
+        name: item.name,
+        uri: item.uri, // to be used for requests
+        image: { height, width, url },
       };
     })
     .catch((error) => {
@@ -150,7 +144,7 @@ export const updateUser = async () => {
  */
 export const updateSongsForDisplay = async (userList) => {
   return;
-}
+};
 
 /**
  * Query `Spotify` to get song data.
@@ -159,7 +153,7 @@ export const updateSongsForDisplay = async (userList) => {
  */
 export const getSong = async (songId) => {
   return;
-}
+};
 
 /**
  * Query `Firebase` for a user's listening history.
@@ -168,4 +162,29 @@ export const getSong = async (songId) => {
  */
 export const getUserHistory = (user) => {
   return;
+};
+
+/**
+ * Query `Firebase` for a user's listening history.
+ *
+ * @todo implement
+ */
+export const getPlaylist = (playlistId, accessToken) => {
+  // await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
+  //   headers: { Authorization: 'Bearer ' + accessToken },
+  // })
+
+  // Check Firebase whether there's been an entry within 24 hours.
+  // If there has, don't update—return the most recent copy from DB
+
+  // If (1) there hasn't been a recent entry or (2) it doesn't exist yet in DB...
+  // Call the Spotify API
+  // Retrieve the data
+  // Clean the data according to what we need
+  // @todo
+  // Take cleaned data and...
+  // Save to Firebase
+  // Return to code for display
+
+  return playlistId;
 };

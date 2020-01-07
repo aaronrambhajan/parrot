@@ -19,7 +19,8 @@ app.get('/login', function(req, res) {
       querystring.stringify({
         response_type: 'code',
         client_id,
-        scope: 'user-read-private user-read-email user-read-currently-playing',
+        scope:
+          'user-read-private user-read-email user-read-recently-played user-read-playback-state user-modify-playback-state',
         redirect_uri,
       })
   );
@@ -41,7 +42,9 @@ app.get('/callback', function(req, res) {
     },
     json: true,
   };
+
   request.post(authOptions, function(error, response, body) {
+    // @todo this is where `refresh_token` lives
     res.redirect(frontend_uri + '?access_token=' + body.access_token);
   });
 });
