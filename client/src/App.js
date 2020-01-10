@@ -5,8 +5,6 @@ import { Input, Label, Form, Button } from 'reactstrap';
 import queryString from 'query-string';
 import styled from 'styled-components';
 import { validateUser, addUser, getCurrentSong } from './api';
-import Social from './pages/Social';
-import Login from './pages/Login';
 import colors from 'colors';
 
 const Container = styled.div``;
@@ -73,17 +71,14 @@ export default class App extends Component {
   };
 
   getSpotifyUserToken = async () => {
+    console.log('Retrieving user access token...');
     const parsed = queryString.parse(window.location.search);
-
-    console.log('from token retrieval');
-    console.log(parsed);
 
     const accessToken = parsed.access_token;
     if (!accessToken) return;
-    // @todo develop better way of passing accessToken around
+
     const user: SpotifyUserObject = await validateUser(accessToken);
     const isLoggedIn: boolean = await addUser(user);
-    // @todo validate success
 
     this.setState({
       accessToken,
@@ -109,8 +104,6 @@ export default class App extends Component {
         </Container>
       );
     }
-    // return <Login />;
-
     return (
       <Container>
         <FormContainer>
@@ -129,7 +122,6 @@ export default class App extends Component {
           </ConnectButton>
         </FormContainer>
         <InputLabel>sk¡tch</InputLabel>
-        <p style={{ color: 'white' }}> hi</p>
       </Container>
     );
   };
