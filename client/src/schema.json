@@ -1,0 +1,46 @@
+{
+  "users": {
+    "arambhajan": {
+      "id": 1,
+      "name": "Aaron Rambhajan",
+      "email": "aaronrambhajan@gmail.com"
+    },
+    "kateviloria": {
+      "id": 2,
+      "name": "Kate Viloria",
+      "email": "kateviloria@outlook.com"
+    },
+    "allyfrancesca": {
+      "id": 3,
+      "name": "Alexandra Scandolo",
+      "email": "alexandrascandolo@gmail.com"
+    }
+  },
+  "playback": {
+    "user": 1,
+    "playback": true,
+    "uri": "spotify:track:3I0FBDc1c1BLNtXWKVjmFg",
+    "progress_ms": 92304,
+    "timestamp": 1930493058204
+  },
+  "sessions": [
+    {
+      "id": 1,
+      "driver": 1,
+      "duration": 560,
+      "start": 192583945839,
+      "skitchers": [
+        {
+          "id": 2,
+          "start": 135,
+          "end": null
+        },
+        {
+          "id": 3,
+          "start": 2,
+          "end": 500
+        }
+      ]
+    }
+  ]
+}

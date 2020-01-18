@@ -1,16 +1,5 @@
 // @flow
 
-/**
- * All API requests and utility sorting functions.
- *
- * @todo move this all into the backend.
- * @todo create a return type default for better error-handling.
- * @todo add functionality for messaging so if we see a friend listening to
- *  a song we can interact with it in some way
- * @todo add a Spotify button so people can go to the app/songs
- * @todo split this into a FIREBASE API and a SPOTIFY API
- */
-
 import firebase from './firebase';
 
 /**
@@ -25,8 +14,8 @@ export const validateUser = async (accessToken) => {
     .then((response) => response.json())
     .then((data) => {
       return {
+        id: data.id,
         name: data.display_name,
-        image: data.images[0].url,
         email: data.email,
       };
     })
@@ -66,6 +55,7 @@ export const getPlaybackState = async (accessToken) => {
  * Returns the track from Spotify for what a user is listening to.
  */
 export const startPlayback = async (accessToken, uri, position) => {
+  console.log('Starting user playback...');
   return await fetch('https://api.spotify.com/v1/me/player/play', {
     method: 'PUT',
     headers: { Authorization: 'Bearer ' + accessToken },
@@ -85,6 +75,7 @@ export const startPlayback = async (accessToken, uri, position) => {
  * Returns the track from Spotify for what a user is listening to.
  */
 export const getCurrentSong = async (accessToken) => {
+  console.log('Retrieving current song...');
   return await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
     headers: { Authorization: 'Bearer ' + accessToken },
   })
@@ -110,15 +101,23 @@ export const getCurrentSong = async (accessToken) => {
     });
 };
 
-/**
- * After getting a `SpotifyUserObject` && `accessToken`, we take that data
- * and add it to `Firebase` so we have record of that user. This will not
- * add a user if they're already there.
- *
- * @todo return a boolean if the user is already there.
- */
-export const addUser = async (spotifyUserObject) => {
-  const usersRef = firebase.database().ref('users');
-  await usersRef.child(spotifyUserObject.name).set(spotifyUserObject);
-  return true;
+const db = firebase.database();
+
+const handleFirebaseResponse = (error) => {
+  if (error) {
+    alert('User adding failed!');
+  } else {
+    console.log('User saved successfully');
+  }
+};
+
+export const saveUser = async (user) => {
+  const users = db.ref(`users/${user.id}`);
+  users.set(
+    {
+      name: user.name,
+      email: user.email,
+    },
+    handleFirebaseResponse
+  );
 };
