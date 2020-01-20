@@ -1,11 +1,9 @@
 // @flow
 
-import firebase from './firebase';
-
 /**
  * Validate a user with an access token.
  */
-export const validateUser = async (accessToken) => {
+const validateUser = async (accessToken) => {
   console.log('Validating user...');
 
   const userData = await fetch('https://api.spotify.com/v1/me', {
@@ -29,7 +27,7 @@ export const validateUser = async (accessToken) => {
 /**
  * Validate a user with an access token.
  */
-export const getPlaybackState = async (accessToken) => {
+const getPlaybackState = async (accessToken) => {
   console.log('Retrieving playback data...');
 
   const playbackData = await fetch('https://api.spotify.com/v1/me/player', {
@@ -54,7 +52,7 @@ export const getPlaybackState = async (accessToken) => {
 /**
  * Returns the track from Spotify for what a user is listening to.
  */
-export const startPlayback = async (accessToken, uri, position) => {
+const startPlayback = async (accessToken, uri, position) => {
   console.log('Starting user playback...');
   return await fetch('https://api.spotify.com/v1/me/player/play', {
     method: 'PUT',
@@ -74,7 +72,7 @@ export const startPlayback = async (accessToken, uri, position) => {
 /**
  * Returns the track from Spotify for what a user is listening to.
  */
-export const getCurrentSong = async (accessToken) => {
+const getCurrentSong = async (accessToken) => {
   console.log('Retrieving current song...');
   return await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
     headers: { Authorization: 'Bearer ' + accessToken },
@@ -101,23 +99,4 @@ export const getCurrentSong = async (accessToken) => {
     });
 };
 
-const db = firebase.database();
-
-const handleFirebaseResponse = (error) => {
-  if (error) {
-    alert('User adding failed!');
-  } else {
-    console.log('User saved successfully');
-  }
-};
-
-export const saveUser = async (user) => {
-  const users = db.ref(`users/${user.id}`);
-  users.set(
-    {
-      name: user.name,
-      email: user.email,
-    },
-    handleFirebaseResponse
-  );
-};
+export { validateUser, getPlaybackState, startPlayback, getCurrentSong };

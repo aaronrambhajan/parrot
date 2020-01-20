@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Input, Label, Form, Button } from 'reactstrap';
 import queryString from 'query-string';
 import styled from 'styled-components';
-import { validateUser, saveUser, getCurrentSong } from './api';
+import { validateUser, saveUser, getCurrentSong } from './api/spotify';
 import colors from 'colors';
 
 const Container = styled.div``;
