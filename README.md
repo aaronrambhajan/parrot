@@ -1,6 +1,6 @@
 # sk¡tch
 
-`sk¡tch v0.1.0` gives Spotify users the ability to follow their friends' listening queue in real time.
+`sk¡tch v0.1.0` gives Spotify users the ability to follow their friends' listening queue in real time. Further technical documentation can be found [here](https://www.dropbox.com/scl/fi/68eqwz1ox28tku4am5nry/technical.gdoc?dl=0&rlkey=94g2vgpizj10dzhmotbsai8mg).
 
 ## Technologies
 
@@ -97,3 +97,7 @@ After a user has finished playback on a song, a 10-song backlog is kept.
   }
 }
 ```
+
+## Credits
+
+Built with [Luke Daccord](https://lukedaccord.tumblr.com/).
