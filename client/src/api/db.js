@@ -1,6 +1,7 @@
 // @flow
 
 import firebase from '../firebase';
+import { SpotifyUser } from './spotify';
 
 const db = firebase.database();
 
@@ -20,8 +21,9 @@ const handleFirebaseResponse = (error) => {
  *
  * @param user: User object
  */
-const saveUser = async (user) => {
+const saveUser = async (user: SpotifyUser) => {
   const users = db.ref(`users/${user.id}`);
+  // @todo First, check if the user is already there; don't overwrite!
   users.set(
     {
       name: user.name,
@@ -122,4 +124,8 @@ export {
   saveUserCurrentlyPlaying,
   removeCurrentlyPlaying,
   saveToPlaybackHistory,
+  startSession,
+  addSkitcher,
+  removeSkitcher,
+  endSession,
 };

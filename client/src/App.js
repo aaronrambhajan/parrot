@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 import { Input, Label, Form, Button } from 'reactstrap';
 import queryString from 'query-string';
+import { addUser } from './api';
 import styled from 'styled-components';
-import { validateUser, saveUser, getCurrentSong } from './api/spotify';
 import colors from 'colors';
 
 const Container = styled.div``;
@@ -78,6 +78,7 @@ export default class App extends Component {
     if (!accessToken) return;
     console.log(`accessToken: ${accessToken}`);
 
+    // @todo replace with `saveUser`
     const user: SpotifyUserObject = await validateUser(accessToken);
     const isLoggedIn: boolean = await saveUser(user);
 

@@ -1,5 +1,11 @@
 // @flow
 
+type SpotifyUser = {
+  id: string,
+  name: string,
+  email: string,
+};
+
 /**
  * Validate a user with an access token.
  */
@@ -100,3 +106,4 @@ const getCurrentSong = async (accessToken) => {
 };
 
 export { validateUser, getPlaybackState, startPlayback, getCurrentSong };
+export { SpotifyUser };
